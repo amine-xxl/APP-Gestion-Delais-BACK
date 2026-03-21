@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourrierController;
 
-//Routes Definition
-Route::get('/courriers',[CourrierController::class,'index']);
-Route::post('/courriers',[CourrierController::class,'store']);
-Route::put('/courriers/{id}',[CourrierController::class,'update']);
-Route::delete('/courriers/{id}',[CourrierController::class,'destroy']);
+Route::get('/', function () {
+    return view('welcome');
+});
