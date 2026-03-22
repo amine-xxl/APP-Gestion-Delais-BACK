@@ -22,10 +22,10 @@ class Courrier extends Model
     ];
 
     protected $casts = [
-        'date_garde'    => 'date',
-        'date_recu'     => 'date',
-        'limite_recu'   => 'date',
-        'date_reponse'  => 'date',
-        'reminder_sent' => 'boolean',
-    ];
+    'date_garde'   => 'date:Y-m-d',
+    'date_recu'    => 'date:Y-m-d',
+    'limite_recu'  => 'date:Y-m-d',
+    'date_reponse' => 'date:Y-m-d',
+    'reminder_sent' => 'boolean',
+];
 }

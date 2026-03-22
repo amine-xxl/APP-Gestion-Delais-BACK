@@ -39,9 +39,9 @@ class CourrierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Courrier $courrier)
+    public function show($id)
     {
-        //
+        return response()->json(Courrier::findOrFail($id));
     }
 
     /**
