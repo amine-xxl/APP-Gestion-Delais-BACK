@@ -7,22 +7,22 @@
 ## 📌 About
 
 Laravel REST API backend for the SETAS correspondence management system.
-Handles all CRUD operations, automated Gmail reminders, and deadline tracking for the **Ministère des Habous et des Affaires Islamiques** — Fès regional office.
+Handles CRUD operations, automated Gmail reminders, and deadline tracking for the **Ministère des Habous et des Affaires Islamiques — Fès**.
 
-> 💡 **Pro tip:** Sensitive data is kept in `.env` and startup scripts (`.bat`, `.vbs`) which are **ignored** in Git. Example files (`.env.example`, `StartSetas.example.*`) are tracked.
+> 💡 Sensitive data is kept in `.env` and launch scripts, which are ignored. Example files (`.env.example`, `StartSetas.example.*`) are tracked.
 
 ---
 
 ## 🚀 Tech Stack
 
-| Technology        | Usage               |
-| ----------------- | ------------------- |
-| Laravel 11        | Backend framework   |
-| MySQL             | Database            |
-| PHP 8.x           | Server language     |
-| Carbon            | Date manipulation   |
-| Laravel Scheduler | Automated reminders |
-| Gmail SMTP        | Email notifications |
+| Technology        | Usage                                   |
+| ----------------- | --------------------------------------- |
+| Laravel 11        | Backend framework                       |
+| MySQL             | Database                                |
+| PHP 8.x           | Server language (^8.2 in composer.json) |
+| Carbon            | Date manipulation                       |
+| Laravel Scheduler | Automated reminders                     |
+| Gmail SMTP        | Email notifications                     |
 
 ---
 
@@ -31,32 +31,31 @@ Handles all CRUD operations, automated Gmail reminders, and deadline tracking fo
 ```
 app/
 ├── Models/
-│   └── Courrier.php              # Courrier model
+│   └── Courrier.php
 ├── Http/Controllers/
-│   └── CourrierController.php    # CRUD + reminders
+│   └── CourrierController.php
 ├── Console/Commands/
-│   └── SendReminders.php         # Daily reminder command
+│   └── SendReminders.php
 
 database/
 ├── migrations/
 │   └── xxxx_create_courriers_table.php
 
 routes/
-├── api.php                       # API routes
-├── web.php                       # Serves React build
-└── console.php                   # Scheduler commands
+├── api.php
+├── web.php
+└── console.php
 
 config/
-└── mail.php                      # Gmail SMTP config
+└── mail.php
 
 public/
 └── (React build files)
 
-# Startup scripts (examples tracked)
-StartSetas.example.bat            # Launch with visible terminal
-StartSetas.example.vbs            # Launch silently (no terminal)
-
-.env.example                       # Environment template
+# Startup scripts (tracked as examples)
+StartSetas.example.bat
+StartSetas.example.vbs
+.env.example
 ```
 
 ---
@@ -82,15 +81,13 @@ php artisan key:generate
 # Run migrations
 php artisan migrate
 
-# Start Laravel server
+# Start the server
 php artisan serve --port=8000
 ```
 
 ---
 
 ## 🌍 Environment Variables
-
-Configure your `.env` file based on `.env.example`:
 
 ```env
 DB_CONNECTION=mysql
@@ -111,7 +108,7 @@ MAIL_TO=director_email@gmail.com
 MAIL_FROM_NAME="SETAS"
 ```
 
-> ✅ **Tip:** Never commit `.env` — always use `.env.example` as a template.
+> ✅ Never commit `.env`—use `.env.example` instead.
 
 ---
 
@@ -133,18 +130,18 @@ MAIL_FROM_NAME="SETAS"
 ```
 courriers
 ├── id
-├── n_garde          # Correspondence number
-├── date_garde       # Correspondence date
-├── sujet            # Subject
-├── date_recu        # Reception date
-├── limite_recu      # Deadline date (auto-calculated)
-├── delais_recu      # Deadline in days
-├── reponse          # Response text
-├── n_reponse        # Response number
-├── date_reponse     # Response date
-├── priority         # urgent / normal (auto-calculated from delais_recu)
-├── status           # pending / answered / archived
-├── reminder_sent    # Boolean (default: false)
+├── n_garde
+├── date_garde
+├── sujet
+├── date_recu
+├── limite_recu
+├── delais_recu
+├── reponse
+├── n_reponse
+├── date_reponse
+├── priority
+├── status
+├── reminder_sent
 └── timestamps
 ```
 
@@ -152,64 +149,56 @@ courriers
 
 ## ⏰ Automated Reminders
 
-Daily Gmail alerts for courriers due in 5 days:
-
 ```bash
 php artisan reminders:send
 ```
 
-* Scheduled daily at 08:00 via **Windows Task Scheduler**:
+Scheduled daily via Windows Task Scheduler:
 
-  * Program: `C:\path\to\php\php.exe`
-  * Arguments: `artisan reminders:send`
-  * Start in: `C:\path\to\your\project\BackEnd`
+* Program: `C:\path\to\php\php.exe`
+* Arguments: `artisan reminders:send`
+* Start in: `C:\path\to\project\BackEnd`
 
 ---
 
 ## 🚀 Launch Scripts
 
-### `StartSetas.example.bat` — Launch with visible terminal
+### StartSetas.example.bat
 
 ```bat
 @echo off
 title SETAS - Démarrage
 start "" "C:\path\to\xampp\mysql_start.bat"
 timeout /t 5 /nobreak > nul
-start "" cmd /k "cd /d C:\path\to\your\project\BackEnd && C:\path\to\php\php.exe artisan serve --port=8000"
+start "" cmd /k "cd /d C:\path\to\project\BackEnd && C:\path\to\php\php.exe artisan serve --port=8000"
 timeout /t 8 /nobreak > nul
 start "" "http://localhost:8000"
 ```
 
-### `StartSetas.example.vbs` — Silent launch
+### StartSetas.example.vbs
 
 ```vbs
 Set oShell = CreateObject("WScript.Shell")
 oShell.Run "C:\path\to\xampp\mysql_start.bat", 0, False
 WScript.Sleep 5000
-oShell.Run "cmd /c ""cd /d C:\path\to\your\project\BackEnd && C:\path\to\php\php.exe artisan serve --port=8000""", 0, False
+oShell.Run "cmd /c ""cd /d C:\path\to\project\BackEnd && C:\path\to\php\php.exe artisan serve --port=8000""", 0, False
 WScript.Sleep 8000
 oShell.Run "http://localhost:8000", 1, False
 ```
 
-> **Usage:** Copy the `.example` files → rename to remove `.example` → edit paths → double-click to launch.
+> Rename by Removing the `.example` extension from files after editing paths for local usage.
 
 ---
 
-## 📌 GitHub Hygiene
+## 🐞 Known Issues
 
-**.gitignore**
+* Ensure PHP >= 8.2. Laravel 11 may throw errors if using lower PHP versions.
 
-```gitignore
-.env
-StartSetas.bat
-StartSetas.vbs
-```
+---
 
-**Tracked in repo:**
+## 📜 CHANGELOG
 
-* `.env.example`
-* `StartSetas.example.bat`
-* `StartSetas.example.vbs`
+See [`CHANGELOG.md`](CHANGELOG.md) for version history and release notes.
 
 ---
 
