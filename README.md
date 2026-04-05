@@ -35,9 +35,14 @@ database/
 │   └── xxxx_create_courriers_table.php
 routes/
 ├── api.php                       # API routes
+├── web.php                       # Serves React build
 └── console.php                   # Scheduler
 config/
 └── mail.php                      # Gmail SMTP config
+public/
+└── (React build files)           # Built frontend served here
+StartSetas.bat                    # Launch script (shows terminal)
+StartSetas.vbs                    # Launch script (silent, no terminal)
 ```
 
 ---
@@ -97,10 +102,10 @@ MAIL_FROM_NAME="SETAS"
 |--------|----------|-------------|
 | GET | `/api/courriers` | Get all courriers |
 | POST | `/api/courriers` | Create new courrier |
+| GET | `/api/courriers/reminders` | Get courriers due in 5 days |
 | GET | `/api/courriers/{id}` | Get single courrier |
 | PUT | `/api/courriers/{id}` | Update courrier |
 | DELETE | `/api/courriers/{id}` | Delete courrier |
-| GET | `/api/courriers/reminders` | Get courriers due in 5 days |
 
 ---
 
@@ -117,7 +122,7 @@ courriers
 ├── reponse          # Response text
 ├── n_reponse        # Response number
 ├── date_reponse     # Response date
-├── priority         # urgent / normal (auto-calculated)
+├── priority         # urgent / normal (auto-calculated from delais_recu)
 ├── status           # pending / answered / archived
 ├── reminder_sent    # Boolean (default: false)
 └── timestamps
@@ -131,14 +136,46 @@ Daily reminder command that sends Gmail alerts for courriers due in 5 days:
 php artisan reminders:send
 ```
 
-Scheduled daily at 08:00 via Laravel Scheduler + Windows Task Scheduler.
+Scheduled daily at 08:00 via **Windows Task Scheduler**:
+- Program: `C:\xampp\php\php.exe`
+- Arguments: `artisan reminders:send`
+- Start in: `C:\xampp\Setas App\BackEnd`
+
+---
+
+## 🚀 Launch Scripts
+
+### `StartSetas.bat` — Launch with visible terminal
+Double-click to start MySQL + Laravel and open the browser.  
+A terminal window stays open showing the Laravel server logs.
+
+```bat
+@echo off
+title SETAS - Démarrage
+start "" "C:\xampp\mysql_start.bat"
+timeout /t 5 /nobreak > nul
+start "" cmd /k "cd /d C:\xampp\Setas App\BackEnd && C:\xampp\php\php.exe artisan serve --port=8000"
+timeout /t 8 /nobreak > nul
+start "" "http://localhost:8000"
+```
+
+### `StartSetas.vbs` — Silent launch (recommended for director)
+Double-click to start everything **silently in the background** — no terminal windows, browser opens automatically.
+
+```vbs
+Set oShell = CreateObject("WScript.Shell")
+oShell.Run "C:\xampp\mysql_start.bat", 0, False
+WScript.Sleep 5000
+oShell.Run "cmd /c ""cd /d C:\xampp\Setas App\BackEnd && C:\xampp\php\php.exe artisan serve --port=8000""", 0, False
+WScript.Sleep 8000
+oShell.Run "http://localhost:8000", 1, False
+```
+
+> **Director's daily routine:** Double-click `StartSetas.vbs` on the desktop → browser opens automatically → app is ready ✅
 
 ---
 
 ## 👨‍💻 Author
 **Mohammed-Amine Rhazi**  
-- **My Email:** mohammedaminerhazi@gmail.com
-- **My GitHub Profile:** https://github.com/amine-xxl
-
 Réalisé pour le Chef de Service de l'Enseignement Traditionnel et des Affaires Sociales  
 © 2026 Application de Suivi des Délais — SETAS
