@@ -72,12 +72,17 @@ class CourrierController extends Controller
         $courrier = Courrier::findOrFail($id);
         $courrier->delete();
         return response()->json(null, 204); // Code 204 No Content
-    }public function reminders()
-{
-    $target = \Carbon\Carbon::today()->addDays(5)->toDateString();
-    $courriers = Courrier::where('limite_recu', $target)
-        ->where('status', 'pending')
-        ->get();
-    return response()->json($courriers);
-}
+    }
+    
+    /**
+     * Display reminders for courriers.
+     */
+    public function reminders()
+    {
+        $target = \Carbon\Carbon::today()->addDays(5)->toDateString();
+        $courriers = Courrier::where('limite_recu', $target)
+            ->where('status', 'pending')
+          ->get();
+        return response()->json($courriers);
+    }
 }

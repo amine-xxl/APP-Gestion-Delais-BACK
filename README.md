@@ -4,7 +4,24 @@
 
 ---
 
-## 📌 About
+## � Table of Contents
+
+- [About](#-about)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation)
+- [Environment Variables](#-environment-variables)
+- [API Endpoints](#-api-endpoints)
+- [Database Schema](#-database-schema)
+- [Automated Reminders](#-automated-reminders)
+- [Launch Scripts](#-launch-scripts)
+- [Known Issues](#-known-issues)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## �📌 About
 
 Laravel REST API backend for the SETAS correspondence management system.
 Handles CRUD operations, automated Gmail reminders, and deadline tracking for the **Ministère des Habous et des Affaires Islamiques — Fès**.
@@ -190,7 +207,10 @@ oShell.Run "http://localhost:8000", 1, False
 
 ## 🐞 Known Issues
 
-* Ensure PHP >= 8.2. Laravel 11 may throw errors if using lower PHP versions.
+* Ensure PHP >= 8.2. Laravel 12 requires PHP 8.2 or higher.
+* MySQL connection must be properly configured in `.env`.
+* Gmail credentials require app-specific passwords (2FA must be enabled).
+* Scheduled tasks require Windows Task Scheduler or cron setup.
 
 ---
 
@@ -200,8 +220,30 @@ See [`CHANGELOG.md`](CHANGELOG.md) for version history and release notes.
 
 ---
 
+## 🤝 Contributing
+
+We welcome contributions! Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [`LICENSE`](LICENSE) file for details.
+
+---
+
 ## 👨‍💻 Author
 
 **Mohammed-Amine Rhazi**
+
 Réalisé pour le Chef de Service de l'Enseignement Traditionnel et des Affaires Sociales
+
 © 2026 Application de Suivi des Délais — SETAS
+
+---
+
+## 🔗 Links
+
+- [CHANGELOG](CHANGELOG.md)
+- [CONTRIBUTING](CONTRIBUTING.md)
+- [LICENSE](LICENSE)
