@@ -108,8 +108,6 @@ MAIL_TO=director_email@gmail.com
 MAIL_FROM_NAME="SETAS"
 ```
 
-> ✅ Never commit `.env`—use `.env.example` instead.
-
 ---
 
 ## 📡 API Endpoints
